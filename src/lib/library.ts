@@ -18,11 +18,14 @@ export type CreativeFormat = "Static" | "Carousel" | "Video";
 
 export type CreativeItem = {
   id: string;
+  publisher: string;
   title: string;
   category: CreativeCategory;
   angle: CreativeAngle;
   format: CreativeFormat;
   badge: string;
+  socialProof: string;
+  mediaLabel: string;
   hook: string;
   summary: string;
   researchNotes: string[];
@@ -58,11 +61,14 @@ export const formats: CreativeFormat[] = ["Static", "Carousel", "Video"];
 export const creativeItems: CreativeItem[] = [
   {
     id: "house-wash-trust",
+    publisher: "Coastal Wash Co.",
     title: "Trusted House Wash Proof Pack",
     category: "House Wash",
     angle: "Social Proof",
     format: "Static",
     badge: "Top 1%",
+    socialProof: "4.9 rating from 200+ local homeowners",
+    mediaLabel: "Before / After house wash",
     hook: "Homeowners buy trust before they buy pressure washing.",
     summary:
       "A credibility-first layout that leads with reviews, service area, and a clean before/after proof block.",
@@ -88,11 +94,14 @@ export const creativeItems: CreativeItem[] = [
   },
   {
     id: "roof-clean-safety",
+    publisher: "Coastal Wash Co.",
     title: "Roof Cleaning Safety Angle",
     category: "Roof Clean",
     angle: "Authority",
     format: "Carousel",
     badge: "Agency Favorite",
+    socialProof: "Low-pressure roof cleaning for delicate surfaces",
+    mediaLabel: "Roof care walkthrough",
     hook: "The roof cleaning offer that feels professional, not aggressive.",
     summary:
       "Positions the business as the safe choice with method, materials, and warranty language.",
@@ -118,11 +127,14 @@ export const creativeItems: CreativeItem[] = [
   },
   {
     id: "driveway-before-after",
+    publisher: "Coastal Wash Co.",
     title: "Driveway Before / After Breakout",
     category: "Driveway Clean",
     angle: "Before / After",
     format: "Video",
     badge: "Scroll Stopper",
+    socialProof: "Fast reveal format for short-form placements",
+    mediaLabel: "Driveway transformation reel",
     hook: "One dramatic transformation does most of the selling.",
     summary:
       "Uses a simple reveal structure that is easy to brand and easy to adapt for reels or stories.",
@@ -148,11 +160,14 @@ export const creativeItems: CreativeItem[] = [
   },
   {
     id: "gutter-seasonal",
+    publisher: "Coastal Wash Co.",
     title: "Seasonal Gutter Clean Reminder",
     category: "Gutter Clean",
     angle: "Seasonal",
     format: "Static",
     badge: "Lead Gen",
+    socialProof: "Seasonal demand peaks before heavy rain",
+    mediaLabel: "Rain-ready home checklist",
     hook: "The best gutter ad reminds people before a problem becomes expensive.",
     summary:
       "Seasonal offer that ties leaf buildup and water overflow to simple homeowner urgency.",
@@ -178,11 +193,14 @@ export const creativeItems: CreativeItem[] = [
   },
   {
     id: "fence-local-offer",
+    publisher: "Coastal Wash Co.",
     title: "Fence and Deck Local Offer",
     category: "Fence / Deck",
     angle: "Local Offer",
     format: "Carousel",
     badge: "Easy Sell",
+    socialProof: "Backyard refresh offer for weekend bookings",
+    mediaLabel: "Fence and deck restore",
     hook: "A local offer with a backyard transformation angle.",
     summary:
       "A flexible promo concept that can be used for decks, fences, patios, and outdoor living spaces.",
@@ -208,11 +226,14 @@ export const creativeItems: CreativeItem[] = [
   },
   {
     id: "commercial-authority",
+    publisher: "Coastal Wash Co.",
     title: "Commercial Property Authority Pack",
     category: "Commercial",
     angle: "Authority",
     format: "Static",
     badge: "High Ticket",
+    socialProof: "Trusted by storefronts, facilities, and property managers",
+    mediaLabel: "Commercial property care",
     hook: "Commercial buyers want reliability, process, and professionalism.",
     summary:
       "A B2B-oriented layout built around insured service, scheduling confidence, and property-maintenance outcomes.",

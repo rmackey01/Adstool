@@ -59,6 +59,7 @@ export function CreativeLibrary() {
         !search ||
         [
           item.title,
+          item.publisher,
           item.hook,
           item.summary,
           item.copy.headline,
@@ -169,31 +170,12 @@ export function CreativeLibrary() {
                   type="button"
                   onClick={() => setSelectedId(item.id)}
                   className={classNames(
-                    "group rounded-3xl border p-5 text-left transition",
-                    "border-white/10 bg-white/[0.04] hover:-translate-y-0.5 hover:border-teal-300/50 hover:bg-white/[0.07]",
-                    selectedItem?.id === item.id && "border-teal-300/60 bg-teal-300/10"
+                    "group rounded-[1.85rem] border p-4 text-left transition",
+                    "border-white/10 bg-transparent hover:-translate-y-0.5 hover:border-teal-300/50",
+                    selectedItem?.id === item.id && "border-teal-300/60 bg-teal-300/5"
                   )}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] uppercase tracking-[0.22em] text-slate-200">
-                          {item.category}
-                        </span>
-                        <span className="rounded-full bg-slate-800 px-2.5 py-1 text-[11px] uppercase tracking-[0.22em] text-slate-300">
-                          {item.angle}
-                        </span>
-                      </div>
-                      <h3 className="mt-3 text-lg font-semibold text-white">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] uppercase tracking-[0.22em] text-amber-200">
-                      {item.badge}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">{item.summary}</p>
-                  <p className="mt-4 text-sm font-medium text-teal-200">{item.hook}</p>
+                  <AdPreview item={item} brandKit={brandKit} compact />
                 </button>
               ))
             ) : (
@@ -226,8 +208,8 @@ export function CreativeLibrary() {
 
         <div className="space-y-6">
           {selectedItem ? (
-            <div className="rounded-3xl border border-white/10 bg-slate-900/85 p-6 backdrop-blur">
-              <div className="flex items-start justify-between gap-4">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/85 p-4 backdrop-blur md:p-6">
+              <div className="flex items-start justify-between gap-4 px-1 pb-4">
                 <div>
                   <p className="text-xs uppercase tracking-[0.24em] text-teal-300">
                     Selected creative pack
@@ -247,18 +229,7 @@ export function CreativeLibrary() {
                 </div>
               </div>
 
-              <div className="mt-5 rounded-3xl border border-teal-300/20 bg-teal-300/8 p-5">
-                <p className="text-xs uppercase tracking-[0.28em] text-teal-200">Headline</p>
-                <p className="mt-2 text-xl font-semibold text-white">
-                  {selectedItem.copy.headline}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-slate-300">
-                  {selectedItem.copy.primaryText}
-                </p>
-                <div className="mt-4 inline-flex rounded-full bg-teal-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-950">
-                  {selectedItem.copy.cta}
-                </div>
-              </div>
+              <AdPreview item={selectedItem} brandKit={brandKit} />
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 <DetailCard
@@ -398,7 +369,8 @@ export function CreativeLibrary() {
                 <div className="text-sm font-medium text-white">{brandKit.businessName}</div>
                 <p className="mt-2 text-sm text-slate-300">{brandKit.serviceArea}</p>
                 <p className="mt-2 text-sm text-slate-300">{brandKit.offer}</p>
-                <div className="mt-4 inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white"
+                <div
+                  className="mt-4 inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white"
                   style={{
                     background: `linear-gradient(135deg, ${brandKit.primaryColor}, ${brandKit.accentColor})`,
                   }}
@@ -412,6 +384,262 @@ export function CreativeLibrary() {
       </div>
     </section>
   );
+}
+
+function AdPreview({
+  item,
+  brandKit,
+  compact = false,
+}: {
+  item: (typeof creativeItems)[number];
+  brandKit: BrandKit;
+  compact?: boolean;
+}) {
+  const palette = paletteFor(item.category);
+  const body = compact
+    ? item.summary
+    : item.copy.primaryText;
+
+  return (
+    <article className="overflow-hidden rounded-[1.9rem] border border-slate-200 bg-white text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.18)]">
+      <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-slate-500">
+        <span className="inline-flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-slate-400" />
+          Sponsored
+        </span>
+        <span>Facebook feed ad</span>
+      </div>
+
+      <div className="flex items-center gap-3 px-4 py-4">
+        <div
+          className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold text-white"
+          style={{
+            background: `linear-gradient(135deg, ${brandKit.primaryColor}, ${brandKit.accentColor})`,
+          }}
+        >
+          {brandKit.logoLabel}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <p className="truncate text-sm font-semibold text-slate-900">{item.publisher}</p>
+            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-700">
+              Verified
+            </span>
+          </div>
+          <p className="text-[12px] text-slate-500">
+            {brandKit.serviceArea} · {item.socialProof}
+          </p>
+        </div>
+        <div className="text-lg leading-none text-slate-400">···</div>
+      </div>
+
+      <div className="px-4 pb-4">
+        <div
+          className={classNames(
+            "relative overflow-hidden rounded-[1.5rem] border border-slate-100",
+            compact ? "h-[220px]" : "h-[360px]"
+          )}
+          style={{
+            background: `linear-gradient(135deg, ${palette.left}, ${palette.right})`,
+          }}
+        >
+          <CreativeScene item={item} compact={compact} />
+        </div>
+
+        <div className="space-y-3 px-1 pb-1 pt-4">
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+              {item.category}
+            </span>
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+              {item.angle}
+            </span>
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+              {item.format}
+            </span>
+          </div>
+
+          <h4 className={classNames("font-semibold text-slate-950", compact ? "text-base" : "text-xl")}>
+            {item.copy.headline}
+          </h4>
+          <p className={classNames("leading-6 text-slate-600", compact ? "text-[13px]" : "text-[15px]")}>
+            {body}
+          </p>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white"
+              style={{
+                background: `linear-gradient(135deg, ${brandKit.primaryColor}, ${brandKit.accentColor})`,
+              }}
+            >
+              {item.copy.cta}
+            </button>
+            <div className="text-[11px] uppercase tracking-[0.18em] text-slate-500">
+              {item.mediaLabel}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-slate-500">
+        <span>Like · Comment · Share</span>
+        <span>{item.badge}</span>
+      </div>
+    </article>
+  );
+}
+
+function CreativeScene({
+  item,
+  compact,
+}: {
+  item: (typeof creativeItems)[number];
+  compact: boolean;
+}) {
+  const baseText = compact ? "Quick proof" : item.hook;
+
+  switch (item.category) {
+    case "House Wash":
+      return (
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 grid grid-cols-2">
+            <div className="relative bg-[linear-gradient(180deg,_#2f3a44,_#1f2933)]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.14),transparent_45%)]" />
+              <div className="absolute left-4 top-4 rounded-full bg-black/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                Before
+              </div>
+              <div className="absolute bottom-5 left-4 right-4 rounded-2xl border border-white/10 bg-black/35 p-3 text-white">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/65">Problem</p>
+                <p className="mt-1 text-sm font-semibold">Siding stains and mildew</p>
+              </div>
+            </div>
+            <div className="relative bg-[linear-gradient(180deg,_#bde8f4,_#dff7ff)]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.75),transparent_34%)]" />
+              <div className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+                After
+              </div>
+              <div className="absolute inset-x-4 bottom-5 rounded-2xl border border-white/60 bg-white/75 p-3 text-slate-900 shadow-lg shadow-slate-900/10">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Result</p>
+                <p className="mt-1 text-sm font-semibold">Bright curb appeal</p>
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-[1.4rem] border border-white/30 bg-white/25 px-4 py-3 text-center backdrop-blur-sm">
+            <div className="text-[10px] uppercase tracking-[0.28em] text-white/85">House wash</div>
+            <div className="mt-1 text-xl font-semibold text-white">{baseText}</div>
+          </div>
+        </div>
+      );
+    case "Roof Clean":
+      return (
+        <div className="absolute inset-0 overflow-hidden bg-[linear-gradient(180deg,_#c6d4ea,_#7d95b8)]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.6),transparent_36%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-[56%] bg-[linear-gradient(160deg,_#4b5563_0%,_#303744_55%,_#1f2937_100%)] [clip-path:polygon(0_40%,100%_0,100%_100%,0_100%)]" />
+          <div className="absolute left-6 top-6 rounded-full bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+            Safe method
+          </div>
+          <div className="absolute right-6 top-6 rounded-full border border-white/40 bg-black/25 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+            Roof care
+          </div>
+          <div className="absolute inset-x-6 bottom-6 rounded-[1.35rem] border border-white/35 bg-white/80 p-4 shadow-xl shadow-slate-900/15 backdrop-blur">
+            <div className="text-[10px] uppercase tracking-[0.24em] text-slate-500">
+              {item.socialProof}
+            </div>
+            <div className="mt-1 text-lg font-semibold text-slate-900">Low-pressure cleaning</div>
+          </div>
+        </div>
+      );
+    case "Driveway Clean":
+      return (
+        <div className="absolute inset-0 overflow-hidden bg-[linear-gradient(135deg,_#4c5964,_#8c969d)]">
+          <div className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.18)_0,rgba(255,255,255,0.18)_8px,transparent_8px,transparent_16px)]" />
+          <div className="absolute inset-x-0 bottom-0 h-[72%] bg-[linear-gradient(180deg,_#676f76,_#a0a7ac)] [clip-path:polygon(12%_0,88%_0,100%_100%,0_100%)]" />
+          <div className="absolute left-5 top-5 rounded-full bg-black/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+            Video reveal
+          </div>
+          <div className="absolute inset-x-5 top-1/2 -translate-y-1/2 rounded-[1.4rem] border border-white/25 bg-white/20 p-4 text-center text-white backdrop-blur-sm">
+            <div className="text-[10px] uppercase tracking-[0.26em] text-white/80">Watch the change</div>
+            <div className="mt-1 text-2xl font-semibold">Before / After</div>
+          </div>
+          <div className="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-[1.2rem] border border-white/30 bg-black/35 px-4 py-3 text-white backdrop-blur-sm">
+            <span className="text-sm font-semibold">Oil stains removed</span>
+            <span className="text-[10px] uppercase tracking-[0.22em]">{item.socialProof}</span>
+          </div>
+        </div>
+      );
+    case "Gutter Clean":
+      return (
+        <div className="absolute inset-0 overflow-hidden bg-[linear-gradient(180deg,_#d7ece8,_#b9d8d1)]">
+          <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,_#f4f7f8,_transparent)]" />
+          <div className="absolute left-0 top-0 h-full w-full opacity-45 [background-image:linear-gradient(135deg,rgba(255,255,255,0.8)_0,rgba(255,255,255,0.8)_10px,transparent_10px,transparent_20px)]" />
+          <div className="absolute left-6 top-6 rounded-full bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+            Seasonal reminder
+          </div>
+          <div className="absolute inset-x-6 bottom-6 rounded-[1.35rem] border border-white/40 bg-white/85 p-4 shadow-xl shadow-slate-900/10">
+            <div className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Rain-ready home</div>
+            <div className="mt-1 text-lg font-semibold text-slate-900">Clear gutters before storms</div>
+          </div>
+        </div>
+      );
+    case "Fence / Deck":
+      return (
+        <div className="absolute inset-0 overflow-hidden bg-[linear-gradient(180deg,_#efd8bf,_#d5a86b)]">
+          <div className="absolute inset-0 opacity-35 [background-image:repeating-linear-gradient(90deg,rgba(124,67,25,0.25)_0,rgba(124,67,25,0.25)_12px,transparent_12px,transparent_18px)]" />
+          <div className="absolute inset-x-0 bottom-0 h-[60%] bg-[linear-gradient(180deg,_#8b5a2b,_#6f431c)] [clip-path:polygon(0_25%,100%_0,100%_100%,0_100%)]" />
+          <div className="absolute right-6 top-6 rounded-full bg-black/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+            Backyard upgrade
+          </div>
+          <div className="absolute inset-x-6 bottom-6 rounded-[1.35rem] border border-white/35 bg-white/80 p-4 text-slate-900 shadow-xl shadow-slate-900/10">
+            <div className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Fence + deck</div>
+            <div className="mt-1 text-lg font-semibold">Restore the whole outdoor space</div>
+          </div>
+        </div>
+      );
+    case "Commercial":
+      return (
+        <div className="absolute inset-0 overflow-hidden bg-[linear-gradient(180deg,_#d9e0e7,_#aab7c6)]">
+          <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(90deg,rgba(255,255,255,0.7)_0,rgba(255,255,255,0.7)_20px,transparent_20px,transparent_40px)]" />
+          <div className="absolute inset-x-6 top-8 rounded-[1.35rem] border border-white/40 bg-white/85 p-4 text-slate-900 shadow-xl shadow-slate-900/10">
+            <div className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Commercial standard</div>
+            <div className="mt-1 text-xl font-semibold">Clean storefronts. Reliable scheduling.</div>
+          </div>
+          <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between rounded-[1.25rem] border border-white/25 bg-slate-950/55 px-4 py-3 text-white backdrop-blur-sm">
+            <span className="text-sm font-semibold">Insured and on-time</span>
+            <span className="text-[10px] uppercase tracking-[0.22em]">{item.socialProof}</span>
+          </div>
+        </div>
+      );
+    default:
+      return (
+        <div className="absolute inset-0 p-6 text-white">
+          <div className="rounded-[1.35rem] border border-white/30 bg-white/15 p-4 backdrop-blur-sm">
+            <div className="text-[10px] uppercase tracking-[0.24em]">{item.mediaLabel}</div>
+            <div className="mt-2 text-xl font-semibold">{baseText}</div>
+          </div>
+        </div>
+      );
+  }
+}
+
+function paletteFor(category: string) {
+  switch (category) {
+    case "House Wash":
+      return { left: "#173447", right: "#83d9ef" };
+    case "Roof Clean":
+      return { left: "#7e97b5", right: "#d9e6f5" };
+    case "Driveway Clean":
+      return { left: "#43515c", right: "#a7b0b7" };
+    case "Gutter Clean":
+      return { left: "#bfe2dd", right: "#e3f0ed" };
+    case "Fence / Deck":
+      return { left: "#c18b4a", right: "#f0d0ad" };
+    case "Commercial":
+      return { left: "#7d8da0", right: "#dae1ea" };
+    default:
+      return { left: "#607080", right: "#d8e4f0" };
+  }
 }
 
 function FilterGroup({
